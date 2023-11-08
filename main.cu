@@ -308,7 +308,6 @@ void copyQueryLocal(float *query_local, int query_nb_local,
     for (int ipt=0; ipt<query_nb_local; ipt++) {
         for (int id=0; id<dim; id++) {
 
-            // !!!! Here is BUG!!! query_nb_mod should be treated separately !!! only works for mod=0
             query_local[id*query_nb_local + ipt] = query[id*query_nb + (ichunk*query_nb_local + ipt)];
         }
     }
@@ -321,7 +320,6 @@ __global__ void copyQueryLocalDeviceD(float *d_query_local, int query_nb_local,
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   if (index >= query_nb_local) return;
 
-  // !!!! Here is BUG!!! query_nb_mod should be treated separately !!! only works for mod=0
   d_query_local[0*query_nb_local + index] = d_query[0*query_nb + (ichunk*query_nb_local + index)]; 
   d_query_local[1*query_nb_local + index] = d_query[1*query_nb + (ichunk*query_nb_local + index)]; 
 
@@ -349,7 +347,6 @@ __global__ void copyQueryModDeviceD(float *d_query_mod, int query_nb_mod,
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   if (index >= query_nb_mod) return;
 
-  // !!!! Here is BUG!!! query_nb_mod should be treated separately !!! only works for mod=0
   d_query_mod[0*query_nb_mod + index] = d_query[0*query_nb + (ichunk*query_nb_local + index)]; 
   d_query_mod[1*query_nb_mod + index] = d_query[1*query_nb + (ichunk*query_nb_local + index)]; 
 
@@ -389,7 +386,6 @@ __global__ void pushKnnLocalDeviceD(float *d_knn_dist,         int *d_knn_index,
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   if (index >= query_nb_local) return;
 
-  // !!!! Here is BUG!!! query_nb_mod should be treated separately !!! only works for mod=0
   d_knn_dist  [0*query_nb + (ichunk*query_nb_local + index)] = d_dist_localPitch [0*query_nb_local + index]; 
   d_knn_index [0*query_nb + (ichunk*query_nb_local + index)] = d_index_localPitch[0*query_nb_local + index]; 
   d_knn_index2[0*query_nb + (ichunk*query_nb_local + index)] = d_index_localPitch[0*query_nb_local + index]; 
@@ -417,7 +413,6 @@ __global__ void pushKnnModDeviceD(float *d_knn_dist,         int *d_knn_index,  
   int index = blockIdx.x * blockDim.x + threadIdx.x;
   if (index >= query_nb_mod) return;
 
-  // !!!! Here is BUG!!! query_nb_mod should be treated separately !!! only works for mod=0
   d_knn_dist  [0*query_nb + (ichunk*query_nb_local + index)] = d_dist_modPitch [0*query_nb_local + index]; 
   d_knn_index [0*query_nb + (ichunk*query_nb_local + index)] = d_index_modPitch[0*query_nb_local + index]; 
   d_knn_index2[0*query_nb + (ichunk*query_nb_local + index)] = d_index_modPitch[0*query_nb_local + index]; 
