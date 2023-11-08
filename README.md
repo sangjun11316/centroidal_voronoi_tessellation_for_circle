@@ -7,3 +7,5 @@ This application uses part of the codes imported from the following github repos
 
 2) nearest neighbor search via kNN algorithm (knn_cuda_global)
   https://github.com/vincentfpgarcia/kNN-CUDA
+
+Please refer to Wiki for more detailed usages.
